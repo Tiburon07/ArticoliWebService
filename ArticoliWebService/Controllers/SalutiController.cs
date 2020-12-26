@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ArticoliWebService.Controller
+namespace ArticoliWebService.Controllers
 {
     [ApiController]
     [Route("api/saluti")]

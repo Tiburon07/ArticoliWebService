@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ArticoliWebService.Services
 {
-    interface IArticoliRepository
+    public interface IArticoliRepository
     {
         ICollection<Articoli> SelArticoliByDescrizione(string Descrizione);
         Articoli SelArticoloByCodice(string Code);
-        Articoli SelArtocpòpByEan(string Ean);
+        Articoli SelArticoliByEan(string Ean);
 
         bool InsArticoli(Articoli articolo);
         bool UpArticoli(Articoli articolo);
