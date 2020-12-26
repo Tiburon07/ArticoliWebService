@@ -11,6 +11,7 @@ namespace ArticoliWebService.Services
         public bool ArticoloExists(string Code)
         {
             throw new NotImplementedException();
+
         }
 
         public bool DelArticoli(Articoli articolo)
