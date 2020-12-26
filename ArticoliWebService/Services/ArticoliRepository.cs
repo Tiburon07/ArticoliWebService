@@ -1,4 +1,5 @@
 ﻿using ArticoliWebService.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,12 @@ namespace ArticoliWebService.Services
             this.alphaShopDBContext = alphaShopDBContext;
         }
 
-        public ICollection<Articoli> SelArticoliByDescrizione(string Descrizione)
+        public async Task<ICollection<Articoli>> SelArticoliByDescrizione(string Descrizione)
         {
-            return this.alphaShopDBContext.Articoli
+            return await this.alphaShopDBContext.Articoli
                     .Where(a => a.Descrizione.Contains(Descrizione))
                     .OrderBy(a => a.Descrizione)
-                    .ToList();
+                    .ToListAsync();
         }
 
         public Articoli SelArticoloByCodice(string Code)
