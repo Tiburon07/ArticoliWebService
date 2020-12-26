@@ -9,8 +9,8 @@ namespace ArticoliWebService.Services
     public interface IArticoliRepository
     {
         Task<ICollection<Articoli>> SelArticoliByDescrizione(string Descrizione);
-        Articoli SelArticoloByCodice(string Code);
-        Articoli SelArticoliByEan(string Ean);
+        Task<Articoli> SelArticoloByCodice(string Code);
+        Task<Articoli> SelArticoliByEan(string Ean);
 
         bool InsArticoli(Articoli articolo);
         bool UpArticoli(Articoli articolo);

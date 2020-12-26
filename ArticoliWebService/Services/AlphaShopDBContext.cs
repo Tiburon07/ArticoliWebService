@@ -17,7 +17,7 @@ namespace ArticoliWebService.Services
 
         public virtual DbSet<Articoli> Articoli { get; set; }
         public virtual DbSet<Ean> Barcode { get; set; }
-        public virtual DbSet<FamAssort> FamAssorts { get; set; }
+        public virtual DbSet<FamAssort> FamAssort { get; set; }
         public virtual DbSet<Ingredienti> Ingredienti { get; set; }
         public virtual DbSet<Iva> Iva { get; set; }
 

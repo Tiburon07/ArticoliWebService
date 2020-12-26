@@ -23,24 +23,31 @@ namespace ArticoliWebService.Services
                     .ToListAsync();
         }
 
-        public Articoli SelArticoloByCodice(string Code)
+        public async Task<Articoli> SelArticoloByCodice(string Code)
         {
-            return this.alphaShopDBContext.Articoli
+            return await this.alphaShopDBContext.Articoli
                     .Where(a => a.CodArt.Equals(Code))
-                    .FirstOrDefault();
+                    .Include(a => a.barcode)
+                    .Include(a => a.FamAssort)
+                    .Include(a => a.Iva)
+                    .FirstOrDefaultAsync();
         }
 
-        public Articoli SelArticoliByEan(string Ean)
+        public async Task<Articoli> SelArticoliByEan(string Ean)
         {
-            return this.alphaShopDBContext.Barcode
+            return await this.alphaShopDBContext.Barcode
+                    .Include(a => a.articolo.barcode)
+                    .Include(a => a.articolo.FamAssort)
+                    .Include(a => a.articolo.Iva)
                     .Where(b => b.BarCode.Equals(Ean))
                     .Select(a => a.articolo)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
         }
 
         public bool ArticoloExists(string Code)
         {
-            throw new NotImplementedException();
+            return this.alphaShopDBContext.Articoli
+                    .Any(a => a.CodArt == Code);
         }
 
         public bool DelArticoli(Articoli articolo)
