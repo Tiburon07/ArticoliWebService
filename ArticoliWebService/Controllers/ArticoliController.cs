@@ -14,7 +14,7 @@ namespace ArticoliWebService.Controllers
     [Route("api/articoli")]
     public class ArticoliController : Controller
     {
-        private IArticoliRepository articoliRepository;
+        private readonly IArticoliRepository articoliRepository;
 
         public ArticoliController(IArticoliRepository articoliRepository)
         {
@@ -38,18 +38,7 @@ namespace ArticoliWebService.Controllers
                 return NotFound($"Non è stato trovato alcun articolo per il filtro {filter}");
 
             foreach (var articolo in articoli)
-            {
-                articoliDto.Add(new ArticoliDto
-                {
-                    CodArt = articolo.CodArt,
-                    Descrizione = articolo.Descrizione,
-                    Um = articolo.Um,
-                    CodStat = articolo.CodStat,
-                    PzCart = articolo.PzCart,
-                    PesoNetto = articolo.PesoNetto,
-                    DataCreazione = articolo.DataCreazione
-                });
-            }
+                articoliDto.Add(this.GetArticoliDto(articolo));
 
             return Ok(articoliDto);
 
@@ -85,6 +74,7 @@ namespace ArticoliWebService.Controllers
 
         private ArticoliDto GetArticoliDto(Articoli articolo)
         {
+            Console.WriteLine($"Codice: {articolo.CodArt}");
             var barcodeDto = new List<BarcodeDto>();
 
             foreach (var ean in articolo.barcode)
@@ -107,7 +97,8 @@ namespace ArticoliWebService.Controllers
                 DataCreazione = articolo.DataCreazione,
                 Ean = barcodeDto,
                 Iva = new IvaDto(articolo.Iva.Descrizione, articolo.Iva.Aliquota),
-                Categoria = articolo.FamAssort.Descrizione
+                Categoria = (articolo.FamAssort != null) ? articolo.FamAssort.Descrizione : "Non disponibile",
+                IdStatoArt = articolo.IdStatoArt
             };
 
             return articoliDto;

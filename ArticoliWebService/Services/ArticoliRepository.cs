@@ -18,6 +18,9 @@ namespace ArticoliWebService.Services
         public async Task<ICollection<Articoli>> SelArticoliByDescrizione(string Descrizione)
         {
             return await this.alphaShopDBContext.Articoli
+                    .Include(a => a.barcode)
+                    .Include(a => a.FamAssort)
+                    .Include(a => a.Iva)
                     .Where(a => a.Descrizione.Contains(Descrizione))
                     .OrderBy(a => a.Descrizione)
                     .ToListAsync();
