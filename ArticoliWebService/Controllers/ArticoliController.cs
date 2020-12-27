@@ -35,7 +35,7 @@ namespace ArticoliWebService.Controllers
                 return BadRequest(ModelState);
 
             if (articoli.Count == 0)
-                return NotFound($"Non è stato trovato alcun articolo per il filtro {filter}");
+                return NotFound(new ErrMsg($"Non è stato trovato alcun articolo per il filtro {filter}", this.HttpContext.Response.StatusCode.ToString()));
 
             foreach (var articolo in articoli)
                 articoliDto.Add(this.GetArticoliDto(articolo));
@@ -51,14 +51,14 @@ namespace ArticoliWebService.Controllers
         public async Task<IActionResult> GetArticoliByCode(string CodArt)
         {
             if(!this.articoliRepository.ArticoloExists(CodArt))
-                return NotFound($"Non è stato trovato l'articolo con il codice {CodArt}");
+                return NotFound(new ErrMsg($"Non è stato trovato l'articolo con il codice {CodArt}", this.HttpContext.Response.StatusCode.ToString()));
 
             var articolo = await this.articoliRepository.SelArticoloByCodice(CodArt);
 
             return Ok(GetArticoliDto(articolo));
         }
 
-        [HttpGet("cerca/barcode/{Ean}")]
+        [HttpGet("cerca/ean/{Ean}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(200, Type = typeof(ArticoliDto))]
@@ -67,7 +67,7 @@ namespace ArticoliWebService.Controllers
             var articolo = await this.articoliRepository.SelArticoliByEan(Ean);
 
             if(articolo == null)
-                return NotFound($"Non è stato trovato l'articolo con il barcode {Ean}");
+                return NotFound(new ErrMsg($"Non è stato trovato l'articolo con il barcode {Ean}", this.HttpContext.Response.StatusCode.ToString()));
 
             return Ok(GetArticoliDto(articolo));
         }
@@ -103,6 +103,5 @@ namespace ArticoliWebService.Controllers
 
             return articoliDto;
         }
-
     }
 }
